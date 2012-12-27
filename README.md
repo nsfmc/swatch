@@ -5,11 +5,11 @@ swatch is a parser for adobe swatch exchange files
 Copyright (c) 2012 Marcos A Ojeda http://generic.cx/
 
 
-http://iamacamera.org/default.aspx?id=109 by Carl Camera and
-http://www.colourlovers.com/ase.phps by Chris Williams
+With help from ASE documentation written by [Carl Camera](http://iamacamera.org/default.aspx?id=109) and
+the ase generator written for colourlovers by [Chris Williams](http://www.colourlovers.com/ase.phps)
 
 
-swatch.parse reads in an ase file and converts it to a list of colors and
+`swatch.parse` reads in an ase file and converts it to a list of colors and
 palettes. colors are simple dicts of the form
 
     {
@@ -46,6 +46,6 @@ swatches and palettes, i.e. [ [swatch|palette]* ]
 
 Here's an example:
 
->>> import swatch
->>> swatch.parse("simple palette.ase")
-[{'data': {'mode': 'RGB', 'values': [1.0, 1.0, 1.0]}, 'name': u'Bright White'}]
+    >>> import swatch
+    >>> swatch.parse("simple palette.ase")
+    [{'data': {'mode': 'RGB', 'values': [1.0, 1.0, 1.0]}, 'name': u'Bright White'}]
