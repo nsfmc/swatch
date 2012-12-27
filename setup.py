@@ -2,6 +2,7 @@ from distutils.core import setup
 import codecs
 from swatch import __version__ as VERSION
 
+
 README = codecs.open('README.md', encoding='utf-8').read()
 LICENSE = codecs.open('LICENSE', encoding='utf-8').read()
 

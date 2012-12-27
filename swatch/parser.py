@@ -60,14 +60,25 @@ def dict_for_chunk(fd):
     color_data = data[2 + title_length:]
 
     output = {
-        'name': title,
+        'name': unicode(title),
+        'type': u'Color Group'  # default to color group
     }
 
     if color_data:
         fmt = {'RGB': '!fff', 'Gray': '!f', 'CMYK': '!ffff', 'LAB': '!fff'}
-        color_type = struct.unpack("!4s", color_data[:4])[0].strip()
-        color_values = list(struct.unpack(fmt[color_type], color_data[4:-2]))
-        data = {'mode': color_type, 'values': color_values}
-        output.update(data=data)
+        color_mode = struct.unpack("!4s", color_data[:4])[0].strip()
+        color_values = list(struct.unpack(fmt[color_mode], color_data[4:-2]))
+
+        color_types = ['Global', 'Spot', 'Process']
+        swatch_type_index = struct.unpack(">h", color_data[-2:])[0]
+        swatch_type = color_types[swatch_type_index]
+
+        output.update({
+            'data': {
+                'mode': unicode(color_mode),
+                'values': color_values
+            },
+            'type': unicode(swatch_type)
+        })
 
     return output
