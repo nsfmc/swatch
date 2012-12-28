@@ -31,7 +31,7 @@ LAB: three floats. The first L, is ranged from 0,1. Both A and B are
 floats ranging from [-128.0,127.0]. I believe illustrator just crops
 these to whole values, though.
 
-Palettes (née Color Groups in Adobe Parlance) are also dicts, but they have an
+Palettes (Color Groups in Adobe Parlance) are also dicts, but they have an
 attribute named `swatches` which contains a list of colors contained within
 the palette.
 

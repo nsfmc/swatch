@@ -1,3 +1,4 @@
+# encoding: utf-8
 from distutils.core import setup
 import codecs
 from swatch import __version__ as VERSION
@@ -26,6 +27,6 @@ setup(
         'Topic :: Artistic Software',
         'Topic :: Multimedia :: Graphics',
         'Topic :: Multimedia :: Graphics :: Graphics Conversion',
-        'Topic :: Software Development :: Libraries :: Python Modules'
-    ]
+        'Topic :: Software Development :: Libraries :: Python Modules',
+    ],
 )
