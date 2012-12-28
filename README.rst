@@ -6,11 +6,12 @@ swatch is a parser for adobe swatch exchange files
 Copyright (c) 2012 Marcos A Ojeda http://generic.cx/
 
 
-With help from ASE documentation written by `Carl Camera <http://iamacamera.org/default.aspx?id=109>`_ and
-the ase generator written for colourlovers by `Chris Williams <http://www.colourlovers.com/ase.phps>`_
+With help from ASE documentation written by
+`Carl Camera <http://iamacamera.org/default.aspx?id=109>`_ and
+the ase generator written for colourlovers by
+`Chris Williams <http://www.colourlovers.com/ase.phps>`_
 
-
-`swatch.parse` reads in an ase file and converts it to a list of colors and
+``swatch.parse`` reads in an ase file and converts it to a list of colors and
 palettes. colors are simple dicts of the form::
 
     {
