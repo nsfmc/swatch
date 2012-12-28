@@ -4,7 +4,7 @@ import codecs
 from swatch import __version__ as VERSION
 
 
-README = codecs.open('README', encoding='utf-8').read()
+README = codecs.open('README.rst', encoding='utf-8').read()
 LICENSE = codecs.open('LICENSE', encoding='utf-8').read()
 
 setup(
@@ -12,7 +12,7 @@ setup(
     version=VERSION,
     author='Marcos A Ojeda',
     author_email='marcos@generic.cx',
-    url='http://github.com/nsfmc/',
+    url='http://github.com/nsfmc/swatch',
     packages=['swatch'],
     license=LICENSE,
     description='a parser for adobe swatch exchange files',
