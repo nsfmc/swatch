@@ -10,6 +10,7 @@ All Rights Reserved
 MIT Licensed, see LICENSE.TXT for details
 """
 
+import logging
 import unittest
 import os
 import swatch

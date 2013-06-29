@@ -10,6 +10,7 @@ http://www.colourlovers.com/ase.phps
 All Rights Reserved
 MIT Licensed, see LICENSE.TXT for details
 """
+import logging
 import struct
 import os
 
@@ -17,26 +18,30 @@ import os
 def parse_chunk(fd):
     chunk_type = fd.read(2)
     while chunk_type:
-        if chunk_type == '\x00\x01':
+        if chunk_type == b'\x00\x01':
             # a single color
+            logging.debug("[swatch.parser] parse_chunk saw single color")
             o = dict_for_chunk(fd)
             yield o
 
-        elif chunk_type == '\xC0\x01':
+        elif chunk_type == b'\xC0\x01':
             # folder/palate
+            logging.debug("[swatch.parser] parse_chunk saw folder")
             o = dict_for_chunk(fd)
             o['swatches'] = [x for x in colors(fd)]
             yield o
 
-        elif chunk_type == '\xC0\x02':
+        elif chunk_type == b'\xC0\x02':
             # this signals the end of a folder
-            assert fd.read(4) == '\x00\x00\x00\x00'
+            logging.debug("[swatch.parser] parse_chunk saw end of folder")
+            assert fd.read(4) == b'\x00\x00\x00\x00'
             pass
 
         else:
             # the file is malformed?
+            logging.debug("[swatch.parser] parse_chunk got malformed ase file")
             assert chunk_type in [
-                '\xC0\x01', '\x00\x01', '\xC0\x02', '\x00\x02']
+                b'\xC0\x01', b'\x00\x01', b'\xC0\x02', b'\x00\x02']
             pass
 
         chunk_type = fd.read(2)
@@ -44,7 +49,7 @@ def parse_chunk(fd):
 
 def colors(fd):
     chunk_type = fd.read(2)
-    while chunk_type in ['\x00\x01', '\x00\x02']:
+    while chunk_type in [b'\x00\x01', b'\x00\x02']:
         d = dict_for_chunk(fd)
         yield d
         chunk_type = fd.read(2)
@@ -60,12 +65,12 @@ def dict_for_chunk(fd):
     color_data = data[2 + title_length:]
 
     output = {
-        'name': unicode(title),
-        'type': u'Color Group'  # default to color group
+        'name': str(title),
+        'type': 'Color Group'  # default to color group
     }
 
     if color_data:
-        fmt = {'RGB': '!fff', 'Gray': '!f', 'CMYK': '!ffff', 'LAB': '!fff'}
+        fmt = {b'RGB': '!fff', b'Gray': '!f', b'CMYK': '!ffff', b'LAB': '!fff'}
         color_mode = struct.unpack("!4s", color_data[:4])[0].strip()
         color_values = list(struct.unpack(fmt[color_mode], color_data[4:-2]))
 
@@ -75,10 +80,10 @@ def dict_for_chunk(fd):
 
         output.update({
             'data': {
-                'mode': unicode(color_mode),
+                'mode': color_mode.decode('utf-8'),
                 'values': color_values
             },
-            'type': unicode(swatch_type)
+            'type': str(swatch_type)
         })
 
     return output
