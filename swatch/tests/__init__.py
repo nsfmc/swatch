@@ -11,6 +11,7 @@ MIT Licensed, see LICENSE.TXT for details
 """
 
 import unittest
+import os
 import swatch
 import json
 
@@ -18,7 +19,8 @@ import json
 class TestSwatchParser(unittest.TestCase):
     """Tests for parser.py"""
 
-    def compare_with_json(self, base):
+    def compare_with_json(self, basepath):
+        base = os.path.join("tests", basepath)
         with open(base + ".json") as f:
             ase = swatch.parse(base + ".ase")
             js = json.load(f)
