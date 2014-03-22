@@ -38,7 +38,7 @@ def chunk_for_dict(obj):
 
     fmt = {b'RGB': '!fff', b'Gray': '!f', b'CMYK': '!ffff', b'LAB': '!fff'}
     if mode in fmt:
-        chunk += struct.pack('!4s', str(mode)) # color name
+        chunk += struct.pack('!4s', str(mode).ljust(4)) # color name
         chunk += struct.pack(fmt[mode], *values) # the color values
 
     color_types = ['Global', 'Spot', 'Process']
