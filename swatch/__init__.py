@@ -110,4 +110,6 @@ def dumps(obj):
     v_major, v_minor = 1, 0
     chunk_count = writer.chunk_count(obj)
 
-    return struct.pack("!4sHHI", header, v_major, v_minor, chunk_count)
+    head = struct.pack("!4sHHI", header, v_major, v_minor, chunk_count)
+    body = "".join([writer.chunk_for_dict(c) for c in obj])
+    return head + body
