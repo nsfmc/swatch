@@ -20,6 +20,7 @@ __copyright__ = 'Copyright 2012 Marcos A Ojeda'
 
 
 from . import parser
+from . import writer
 import struct
 
 
@@ -97,9 +98,16 @@ def parse(filename):
     """
 
     with open(filename, "rb") as data:
-        header, version_major, version_minor, chunk_count = struct.unpack("!4sHHI", data.read(12))
+        header, v_major, v_minor, chunk_count = struct.unpack("!4sHHI", data.read(12))
 
         assert header == b"ASEF"
-        assert (version_major, version_minor) == (1, 0)
+        assert (v_major, v_minor) == (1, 0)
 
         return [c for c in parser.parse_chunk(data)]
+
+def dumps(obj):
+    header = b'ASEF'
+    v_major, v_minor = 1, 0
+    chunk_count = writer.chunk_count(obj)
+
+    return struct.pack("!4sHHI", header, v_major, v_minor, chunk_count)
