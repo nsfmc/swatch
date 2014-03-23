@@ -24,7 +24,7 @@ def chunk_count(swatch):
     else:
         return sum(map(chunk_count, swatch))
 
-def chunk_for_dict(obj):
+def chunk_for_color(obj):
     # will prepend the total length of the chunk as a 4 byte int
 
     title = (obj['name']+'\0')
@@ -48,3 +48,15 @@ def chunk_for_dict(obj):
 
     chunk = struct.pack('>I', len(chunk)) + chunk # prepend the chunk size
     return b'\x00\x01' + chunk # swatch color header
+
+def chunk_for_folder(obj):
+    chunk = b'\xC0\x01' # folder header
+    title = obj['name'] + '\0'
+    title_length = len(title)
+    chunk += struct.pack('>H', title_length)
+    chunk += title.encode('utf-16be')
+
+    chunk += "".join([chunk_for_color(c) for c in obj['swatches']])
+
+    chunk += b'\xC0\x02'
+    chunk += b'\x00\x00\x00\x00'

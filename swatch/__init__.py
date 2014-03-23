@@ -111,5 +111,5 @@ def dumps(obj):
     chunk_count = writer.chunk_count(obj)
 
     head = struct.pack("!4sHHI", header, v_major, v_minor, chunk_count)
-    body = "".join([writer.chunk_for_dict(c) for c in obj])
+    body = "".join([writer.chunk_for_color(c) for c in obj])
     return head + body
