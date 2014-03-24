@@ -3,7 +3,7 @@ Swatch
 
 swatch is a parser for adobe swatch exchange files
 
-Copyright (c) 2012 Marcos A Ojeda http://generic.cx/
+Copyright (c) 2014 Marcos A Ojeda http://generic.cx/
 
 
 With help from ASE documentation written by

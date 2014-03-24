@@ -20,9 +20,16 @@ def chunk_count(swatch):
         if 'data' in swatch:
             return 1
         if 'swatches' in swatch:
-            return len(swatch['swatches'])
+            return 2 + len(swatch['swatches'])
     else:
         return sum(map(chunk_count, swatch))
+
+def chunk_for_object(obj):
+    type = obj.get('type')
+    if type == 'Color Group':
+        return chunk_for_folder(obj)
+    if type in ['Process', 'Spot', 'Global']:
+        return chunk_for_color(obj)
 
 def chunk_for_color(obj):
     # will prepend the total length of the chunk as a 4 byte int
@@ -50,13 +57,18 @@ def chunk_for_color(obj):
     return b'\x00\x01' + chunk # swatch color header
 
 def chunk_for_folder(obj):
-    chunk = b'\xC0\x01' # folder header
     title = obj['name'] + '\0'
     title_length = len(title)
-    chunk += struct.pack('>H', title_length)
-    chunk += title.encode('utf-16be')
+    chunk_body = struct.pack('>H', title_length) # title length
+    chunk_body += title.encode('utf-16be') # title
+
+    chunk_head = b'\xC0\x01' # folder header
+    chunk_head += struct.pack('>I', len(chunk_body))
+    # precede entire chunk by folder header and size of folder
+    chunk = chunk_head + chunk_body
 
     chunk += "".join([chunk_for_color(c) for c in obj['swatches']])
 
-    chunk += b'\xC0\x02'
-    chunk += b'\x00\x00\x00\x00'
+    chunk += b'\xC0\x02' # folder terminator chunk
+    chunk += b'\x00\x00\x00\x00' # folder terminator
+    return chunk

@@ -1,7 +1,7 @@
 # encoding: utf-8
 """
 swatch, a parser for adobe swatch exchange files
-Copyright (c) 2012 Marcos A Ojeda http://generic.cx/
+Copyright (c) 2014 Marcos A Ojeda http://generic.cx/
 
 With notes from
 http://iamacamera.org/default.aspx?id=109 by Carl Camera and
@@ -13,10 +13,10 @@ MIT Licensed, see LICENSE.TXT for details
 
 
 __title__ = 'swatch'
-__version__ = '0.2.3'
+__version__ = '0.2.9'
 __author__ = 'Marcos Ojeda'
 __license__ = 'MIT'
-__copyright__ = 'Copyright 2012 Marcos A Ojeda'
+__copyright__ = 'Copyright 2014 Marcos A Ojeda'
 
 
 from . import parser
@@ -111,5 +111,25 @@ def dumps(obj):
     chunk_count = writer.chunk_count(obj)
 
     head = struct.pack("!4sHHI", header, v_major, v_minor, chunk_count)
-    body = "".join([writer.chunk_for_color(c) for c in obj])
+    body = "".join([writer.chunk_for_object(c) for c in obj])
     return head + body
+
+def dump(obj, fp):
+    fp.write(dumps(obj))
+
+def write(obj, filename):
+    """write a swatch object to the filename specified.
+
+    if `filename` exists, it will be overwritten
+
+    `obj` *must* be a list of swatches and palettes, as follows
+
+    ```
+        [ swatch* palette* ]
+    ```
+
+    the best source for how each of these are described is in the `parser`
+    documentation.
+    """
+    with open(filename, 'wb') as f:
+        dump(obj, f)

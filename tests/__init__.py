@@ -5,7 +5,7 @@ swatch.tests
 Solarized color palette using LAB data from
 http://ethanschoonover.com/solarized
 
-Copyright (c) 2012 Marcos A Ojeda http://generic.cx/
+Copyright (c) 2014 Marcos A Ojeda http://generic.cx/
 All Rights Reserved
 MIT Licensed, see LICENSE.TXT for details
 """
@@ -38,6 +38,30 @@ class TestSwatchParser(unittest.TestCase):
     def test_RGB(self):
         js, ase = self.compare_with_json("sampler")
         self.assertEqual(js, ase, "RGB test fails with sampler")
+
+
+class TestSwatchWriter(unittest.TestCase):
+    """Tests for writer.py"""
+
+    def compare_with_ase(self, basepath):
+        base = os.path.join("tests", basepath)
+        with open(base + ".json") as swatch_data:
+            generated_ase = swatch.dumps(json.load(swatch_data))
+        with open(base + ".ase", 'rb') as raw_ase:
+            return raw_ase.read(), generated_ase
+
+    def test_LAB(self):
+        raw, generated = self.compare_with_ase("solarized")
+        self.assertEqual(raw, generated, "LAB test fails with solarized data")
+
+    def test_empty_file(self):
+        raw, generated = self.compare_with_ase("empty white folder")
+        self.assertEqual(raw, generated, "empty named folder no longer parses")
+
+    def test_RGB(self):
+        raw, generated = self.compare_with_ase("sampler")
+        self.assertEqual(raw, generated, "RGB test fails with sampler")
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,1 +1,2 @@
+v0.2.9, 03/23/2014 -- swatch can write json files, round trip from ase->json->ase
 v0.2.3, 12/30/2012 -- Unit tests added under swatch/tests, CHANGES file added
