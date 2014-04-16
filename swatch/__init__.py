@@ -106,6 +106,7 @@ def parse(filename):
         return [c for c in parser.parse_chunk(data)]
 
 def dumps(obj):
+    """converts a swatch to bytes suitable for writing"""
     header = b'ASEF'
     v_major, v_minor = 1, 0
     chunk_count = writer.chunk_count(obj)
@@ -115,12 +116,13 @@ def dumps(obj):
     return head + body
 
 def dump(obj, fp):
+    """write a swatch to a python file object"""
     fp.write(dumps(obj))
 
 def write(obj, filename):
     """write a swatch object to the filename specified.
 
-    if `filename` exists, it will be overwritten
+    if `filename` exists, it will be overwritten.
 
     `obj` *must* be a list of swatches and palettes, as follows
 

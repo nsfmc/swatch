@@ -11,8 +11,11 @@ With help from ASE documentation written by
 the ase generator written for colourlovers by
 `Chris Williams <http://www.colourlovers.com/ase.phps>`_
 
-``swatch.parse`` reads in an ase file and converts it to a list of colors and
-palettes. colors are simple dicts of the form::
+``swatch.write(lst, filename)`` reads in a list, as described below
+and outputs a .ase file.
+
+``swatch.parse(filename)`` reads in an ase file and converts it to a
+list of colors and palettes. colors are simple dicts of the form::
 
     {
         'name': u'color name',
@@ -76,6 +79,29 @@ three swatches::
         'name': u'Cyan Spot (global)',
         'type': u'Spot'}],
       'type': u'Color Group'}]
+
+Spot, Global and Process
+------------------------
+
+Something that's not mentioned in either carl camera's or chris william's code
+is the mention of spot, global and process colors.
+
+There are three kinds of swatch types available to you in a ASE files: Process,
+Global and Spot. Process colors are standard colors, this is the default if you
+define a new color in illustrator. As the name implies, they're mixed from either
+RGB or CMYK depending on the document color mode.
+
+Global colors are the same thing as process colors, but they have one neat property
+which is that when you update them, they are updated all throughout your artwork.
+This makes them something like "color references" and quite useful if you're doing
+something like reskinning some extant document.
+
+Spot colors are implicitly global but have the nifty property that you can create
+new swatches from them based on "tints" or, effectively some screened value of that
+color. The only hitch is that tints, even though they can be part of your file,
+can't be stored/exchanged as swatches. I'm on the fence as to how problematic this
+is, but that's just how it goes. Even illustrator won't save them out, it's just
+not supported in the app (almost certainly due to the nature of the file format)
 
 Caveats
 -------
