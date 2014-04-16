@@ -12,7 +12,7 @@ the ase generator written for colourlovers by
 `Chris Williams <http://www.colourlovers.com/ase.phps>`_
 
 ``swatch.write(lst, filename)`` reads in a list, as described below
-and outputs a .ase file.
+and outputs a .ase file. (new in v0.4.0)
 
 ``swatch.parse(filename)`` reads in an ase file and converts it to a
 list of colors and palettes. colors are simple dicts of the form::

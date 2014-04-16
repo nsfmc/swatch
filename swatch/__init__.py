@@ -13,7 +13,7 @@ MIT Licensed, see LICENSE.TXT for details
 
 
 __title__ = 'swatch'
-__version__ = '0.2.9'
+__version__ = '0.4.0'
 __author__ = 'Marcos Ojeda'
 __license__ = 'MIT'
 __copyright__ = 'Copyright 2014 Marcos A Ojeda'
@@ -111,8 +111,8 @@ def dumps(obj):
     v_major, v_minor = 1, 0
     chunk_count = writer.chunk_count(obj)
 
-    head = struct.pack("!4sHHI", header, v_major, v_minor, chunk_count)
-    body = "".join([writer.chunk_for_object(c) for c in obj])
+    head = struct.pack('!4sHHI', header, v_major, v_minor, chunk_count)
+    body = b''.join([writer.chunk_for_object(c) for c in obj])
     return head + body
 
 def dump(obj, fp):
